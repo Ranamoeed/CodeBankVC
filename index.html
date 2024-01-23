@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversational Webpage</title>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-history"></div>
+        <div id="user-input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var user_input = document.getElementById('user-input').value;
+
+            // Append user message to chat history
+            document.getElementById('chat-history').innerHTML += '<div>User: ' + user_input + '</div>';
+
+            // Send user message to the server for a response
+            fetch('/get_response', {
+                method: 'POST',
+                body: new URLSearchParams({ 'user_input': user_input }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Append model's response text to chat history
+                document.getElementById('chat-history').innerHTML += '<div>Model: ' + data.response + '</div>';
+            });
+        }
+    </script>
+</body>
+</html>
