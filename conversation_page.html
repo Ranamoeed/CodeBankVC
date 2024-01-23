@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversational Model</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #chat-container {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #user-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #response-container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="response-container"></div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-button" onclick="startConversation()">Send</button>
+    </div>
+
+    <script>
+        function startConversation() {
+            const userInput = document.getElementById("user-input").value;
+            document.getElementById("response-container").innerHTML += `<p>User: ${userInput}</p>`;
+            
+            fetch('/start_conversation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_input: userInput }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response-container").innerHTML += `<p>Model: ${data.response}</p>`;
+            })
+            .catch(error => console.error('Error:', error));
+
+            document.getElementById("user-input").value = '';
+        }
+    </script>
+</body>
+</html>
