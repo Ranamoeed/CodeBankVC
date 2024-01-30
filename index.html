@@ -5,13 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversational Webpage</title>
+    <style>
+        /* Add some basic styling for better appearance */
+        #chat-container {
+            max-width: 600px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #chat-history {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            overflow-y: scroll;
+            max-height: 300px; /* Limit chat history height */
+        }
+
+        #user-input-container {
+            display: flex;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        #user-input::placeholder {
+            color: #999;
+        }
+
+        #send-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin: 10px 0;
+            white-space: pre-wrap; /* Preserve newlines and spaces */
+        }
+    </style>
 </head>
 <body>
     <div id="chat-container">
         <div id="chat-history"></div>
         <div id="user-input-container">
             <input type="text" id="user-input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+            <button id="send-button" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
@@ -20,7 +66,7 @@
             var user_input = document.getElementById('user-input').value;
 
             // Append user message to chat history
-            document.getElementById('chat-history').innerHTML += '<div>User: ' + user_input + '</div>';
+            document.getElementById('chat-history').innerHTML += '<div><strong>User:</strong> ' + user_input + '</div>';
 
             // Send user message to the server for a response
             fetch('/get_response', {
@@ -32,9 +78,18 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Append model's response text to chat history
-                document.getElementById('chat-history').innerHTML += '<div>Model: ' + data.response + '</div>';
+                // Append model's response with proper formatting
+                document.getElementById('chat-history').innerHTML += '<div><strong>Model:</strong> ' + formatModelResponse(data.response) + '</div>';
             });
+
+            // Clear the input field after sending the message
+            document.getElementById('user-input').value = '';
+        }
+
+        function formatModelResponse(response) {
+            // Convert response to HTML for better formatting
+            var formattedResponse = response.replace(/\n/g, '<br>'); // Convert newlines to <br>
+            return '<pre class="code-block">' + formattedResponse + '</pre>';
         }
     </script>
 </body>
