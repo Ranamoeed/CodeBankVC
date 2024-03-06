@@ -36,7 +36,7 @@ if TYPE_CHECKING:
 
 
 def transcribe(
-    model: "Whisper",
+    model: "Whispe",
     audio: Union[str, np.ndarray, torch.Tensor],
     *,
     verbose: Optional[bool] = None,
