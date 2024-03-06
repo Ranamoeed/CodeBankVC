@@ -16,16 +16,16 @@ if sys.platform.startswith("linux") and platform.machine() == "x86_64":
     requirements.append("triton>=2.0.0,<3")
 
 setup(
-    name="openai-whisper",
-    py_modules=["whisper"],
+    name="VCnonGen",
+    py_modules=["VCnonGen"],
     version=read_version(),
-    description="Robust Speech Recognition via Large-Scale Weak Supervision",
+    description="",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     readme="README.md",
     python_requires=">=3.8",
-    author="OpenAI",
-    url="https://github.com/openai/whisper",
+    author="tpwnny",
+    url="https://github.com/Ranamoeed/CodeBankVC",
     license="MIT",
     packages=find_packages(exclude=["tests*"]),
     install_requires=[
@@ -35,7 +35,7 @@ setup(
         )
     ],
     entry_points={
-        "console_scripts": ["whisper=whisper.transcribe:cli"],
+        "console_scripts": ["VCnonGen=VCnonGen.transcribe:cli"],
     },
     include_package_data=True,
     extras_require={"dev": ["pytest", "scipy", "black", "flake8", "isort"]},
