@@ -13,7 +13,7 @@ from .audio import HOP_LENGTH, SAMPLE_RATE, TOKENS_PER_SECOND
 from .tokenizer import Tokenizer
 
 if TYPE_CHECKING:
-    from .model import Whisper
+    from .model import NonGen
 
 
 def median_filter(x: torch.Tensor, filter_width: int):
@@ -277,7 +277,7 @@ def merge_punctuations(alignment: List[WordTiming], prepended: str, appended: st
 def add_word_timestamps(
     *,
     segments: List[dict],
-    model: "Whisper",
+    model: "NonGen",
     tokenizer: Tokenizer,
     mel: torch.Tensor,
     num_frames: int,
